@@ -40,9 +40,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/values/all', async (req, res) => {
-  // const values = await pgClient.query('SELECT * from values');
+  const values = await pgClient.query('SELECT * from values');
 
-  res.send([1, 2, 3]);
+  res.send(values.rows);
 });
 
 app.get('/values/current', async (req, res) => {
@@ -63,24 +63,6 @@ app.post('/values', async (req, res) => {
   pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
   res.send({ working: true });
-});
-
-app.post('/values/clear', async (req, res) => {
-  const action = req.body.action;
-  if (action === 'clear') {
-    try {
-      const query = {
-        name: 'clearValues',
-        text: 'DELETE FROM values'
-      };
-      const result = await pgClient.query(query);
-      res.send({ result });
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    res.status(422).send('Incorrect action requested.');
-  }
 });
 
 app.listen(5000, err => {

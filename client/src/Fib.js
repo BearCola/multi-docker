@@ -52,13 +52,6 @@ class Fib extends Component {
     return entries;
   }
 
-  handleClear = async () => {
-    await axios.post('/api/values/clear', {
-      action: 'clear'
-    });
-    await this.fetchValues();
-  };
-
   render() {
     return (
       <div>
@@ -68,7 +61,6 @@ class Fib extends Component {
             value={this.state.index}
             onChange={event => this.setState({ index: event.target.value })}
           />
-          <button onClick={this.handleClear} />
           <button>Submit</button>
         </form>
 
